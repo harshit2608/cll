@@ -1,0 +1,12 @@
+.vscode
+.idea
+
+.DS_Store
+
+node_modules
+out
+target
+**.dylib
+*.a
+build
+cpl_lib
