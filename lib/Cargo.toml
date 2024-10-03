@@ -5,10 +5,11 @@ edition = "2021"
 build = "./buildScripts/build.rs"
 
 [lib]
-crate-type = ["staticlib"]
+crate-type = ["staticlib", "cdylib"]
 
 [dependencies]
 libc = "0.2"
+jni = "0.20.0"
 
 [build-dependencies]
 cbindgen = "0.27"

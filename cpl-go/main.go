@@ -5,7 +5,7 @@ package main
 #include <stdlib.h>
 
 // Declaration of the Rust functions
-char* greet(const char* name);
+char* go_greet(const char* name);
 void free_greeting(char* greeting);
 */
 import "C"
@@ -21,7 +21,7 @@ func Greet(name string) string {
 	defer C.free(unsafe.Pointer(cName)) // Free the C string after use
 
 	// Call the Rust function
-	greetingPtr := C.greet(cName)
+	greetingPtr := C.go_greet(cName)
 
 	// Convert the returned C string back to Go string
 	greeting := C.GoString(greetingPtr)
