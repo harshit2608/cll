@@ -1,5 +1,5 @@
 [package]
-name = "cpl"
+name = "cll"
 version = "0.1.0"
 edition = "2021"
 build = "./buildScripts/build.rs"

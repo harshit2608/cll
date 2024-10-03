@@ -1,9 +1,9 @@
-LIB_NAME=cpl
-GO_PATH=./cpl-go
-JAVA_PATH=./cpl-java
-NODE_PATH=./cpl-node
+LIB_NAME=cll
+GO_PATH=./cll-go
+JAVA_PATH=./cll-java
+NODE_PATH=./cll-node
 BUILD_DIR=./lib/build
-NEW_BUILD_DIR=cpl_lib
+NEW_BUILD_DIR=cll_lib
 
 RUST_TARGET_ARM64=aarch64-apple-darwin
 RUST_TARGET_X86_64=x86_64-apple-darwin
@@ -21,7 +21,7 @@ rust-targets:
 	@echo "Installing Rust targets..."
 	rustup target add $(RUST_TARGET_ARM64)
 	rustup target add $(RUST_TARGET_X86_64)
-	@echo "\n"
+	@echo
 
 # Ensure build directories exist
 prepare-dirs:
@@ -30,7 +30,7 @@ prepare-dirs:
 	mkdir -p $(GO_PATH)/$(NEW_BUILD_DIR)
 	mkdir -p $(JAVA_PATH)/$(NEW_BUILD_DIR)
 	mkdir -p $(NODE_PATH)/$(NEW_BUILD_DIR)
-	@echo "\n"
+	@echo
 
 # Build Rust static library for Go (ARM64)
 build-go-arm64:
@@ -38,7 +38,7 @@ build-go-arm64:
 	cargo build --release --target $(RUST_TARGET_ARM64) --manifest-path=lib/Cargo.toml --lib
 	@if [ $$? -ne 0 ]; then echo "Rust static library build for ARM64 failed!"; exit 1; fi
 	@echo "Copying ARM64 static library to Go project..."
-	cp ./lib/target/$(RUST_TARGET_ARM64)/release/lib$(LIB_NAME).a $(GO_PATH)/$(NEW_BUILD_DIR)/libcpl.a
+	cp ./lib/target/$(RUST_TARGET_ARM64)/release/lib$(LIB_NAME).a $(GO_PATH)/$(NEW_BUILD_DIR)/libcll.a
 	@if [ $$? -ne 0 ]; then echo "Failed to copy ARM64 static library!"; exit 1; fi
 	@echo "Static library copied to Go project.\n"
 
@@ -48,7 +48,7 @@ build-java-x86_64:
 	cargo build --release --target $(RUST_TARGET_X86_64) --manifest-path=lib/Cargo.toml --lib
 	@if [ $$? -ne 0 ]; then echo "Rust dynamic library build for x86_64 failed!"; exit 1; fi
 	@echo "Copying x86_64 dynamic library to Java project..."
-	cp ./lib/target/$(RUST_TARGET_X86_64)/release/lib$(LIB_NAME).dylib $(JAVA_PATH)/$(NEW_BUILD_DIR)/libcpl.dylib
+	cp ./lib/target/$(RUST_TARGET_X86_64)/release/lib$(LIB_NAME).dylib $(JAVA_PATH)/$(NEW_BUILD_DIR)/libcll.dylib
 	@if [ $$? -ne 0 ]; then echo "Failed to copy x86_64 dynamic library!"; exit 1; fi
 	@echo "Dynamic library copied to Java project.\n"
 
@@ -81,8 +81,8 @@ clean:
 # Instructions for running
 instructions:
 	@echo "To run the Go application:"
-	@echo "go run cpl-go/main.go"
+	@echo "go run cll-go/main.go\n"
 	@echo "To run the Java application:"
-	@echo "java -Djava.library.path=./cpl-java/cpl_lib -cp cpl-java/target/cpl-1.0-SNAPSHOT.jar cpl.App"
+	@echo "java -Djava.library.path=./cll-java/cll_lib -cp cll-java/target/cll-1.0-SNAPSHOT.jar cll.App\n"
 	@echo "To run the Node.js application (after building the addon):"
-	@echo "node cpl-node/index.js"
+	@echo "node cll-node/index.js"

@@ -1,8 +1,8 @@
-# Makefile in cpl-go
+# Makefile in cll-go
 
 # Variables
 GO_FILES = main.go
-GO_BIN = cpl-go
+GO_BIN = cll-go
 
 # Target to build the Go executable
 all: $(GO_BIN)

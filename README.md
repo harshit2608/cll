@@ -1,6 +1,6 @@
-# CPL
+# CLL
 
-**CPL** is a cross-language library that allows user to write core logic in Rust and create bindings for multiple programming languages, including Go, Java, and Node.js. This enables seamless integration of the powerful Rust language into various environments.
+**CLL** is a cross-language library that allows user to write core logic in Rust and create bindings for multiple programming languages, including Go, Java, and _Node.js (WIP)_. This enables seamless integration of the powerful Rust language into various environments.
 
 ## Features
 

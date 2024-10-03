@@ -9,4 +9,4 @@ target
 **.dylib
 *.a
 build
-cpl_lib
+cll_lib

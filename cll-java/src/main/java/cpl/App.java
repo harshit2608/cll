@@ -1,8 +1,8 @@
-package cpl;
+package cll;
 
 public class App {
     static {
-        System.loadLibrary("cpl");
+        System.loadLibrary("cll");
     }
 
     // Declare the native method
@@ -13,7 +13,7 @@ public class App {
 
     public static void main(String[] args) {
         App wrapper = new App();
-        String name = "From Java Lib!\n Hope u r doing good.";
+        String name = "From Java Lib!\nHope you are doing good.";
         String greeting = wrapper.greet(name);
         System.out.println(greeting);
         wrapper.freeGreeting(greeting);
