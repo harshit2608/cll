@@ -13,7 +13,7 @@ public class App {
 
     public static void main(String[] args) {
         App wrapper = new App();
-        String name = "Alice";
+        String name = "From Java Lib!\n Hope u r doing good.";
         String greeting = wrapper.greet(name);
         System.out.println(greeting);
         wrapper.freeGreeting(greeting);

@@ -1,7 +1,6 @@
 # Makefile in cpl-go
 
 # Variables
-LIB_NAME = libcpl.dylib
 GO_FILES = main.go
 GO_BIN = cpl-go
 

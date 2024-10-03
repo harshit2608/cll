@@ -9,9 +9,7 @@ use jni::JNIEnv;
 pub extern "system" fn Java_cpl_App_greet(env: JNIEnv, _class: JClass, name: JString) -> jstring {
     let input: String = env.get_string(name).expect("Couldn't get Java string!").into();
     let greeting = rust_greet(&input);
-
-    // The `new_string()` method already returns a `jstring`, so no `into_inner()` is needed.
-    env.new_string(greeting).expect("Couldn't create Java string").into_raw()  // Return the Java string
+    env.new_string(greeting).expect("Couldn't create Java string").into_raw()
 }
 
 #[no_mangle]

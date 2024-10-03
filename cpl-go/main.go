@@ -33,7 +33,7 @@ func Greet(name string) string {
 }
 
 func main() {
-	name := "World"
+	name := "From Golang Lib!!"
 	greeting := Greet(name)
-	fmt.Println(greeting) // Output: Hello, World!
+	fmt.Println(greeting)
 }
