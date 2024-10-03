@@ -76,7 +76,7 @@ build-node:
 # Clean all build directories
 clean:
 	@echo "Cleaning build directories..."
-	rm -rf $(BUILD_DIR) $(GO_PATH)/$(NEW_BUILD_DIR) $(JAVA_PATH)/$(NEW_BUILD_DIR) $(NODE_PATH)/$(NEW_BUILD_DIR) "./lib/target"
+	rm -rf $(BUILD_DIR) $(GO_PATH)/$(NEW_BUILD_DIR) $(JAVA_PATH)/$(NEW_BUILD_DIR) $(NODE_PATH)/$(NEW_BUILD_DIR) $(GO_PATH)/out $(JAVA_PATH)/target ./lib/target
 
 # Instructions for running
 instructions:

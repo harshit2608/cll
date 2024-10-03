@@ -8,5 +8,6 @@ out
 target
 **.dylib
 *.a
+*.so
 build
 cll_lib

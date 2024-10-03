@@ -8,8 +8,8 @@ GO_BIN = cll-go
 all: $(GO_BIN)
 
 $(GO_BIN): $(GO_FILES)
-	go build -o $(GO_BIN) $(GO_FILES)
+	go build -o ./out/$(GO_BIN) $(GO_FILES)
 
 # Clean target
 clean:
-	rm -f $(GO_BIN)
+	rm -f ./out
