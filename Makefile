@@ -9,7 +9,7 @@ RUST_TARGET_ARM64=aarch64-apple-darwin
 RUST_TARGET_X86_64=x86_64-apple-darwin
 
 # Default target to run everything
-all: check-rust rust-targets prepare-dirs build-go-arm64 build-java-x86_64 build-go build-java instructions
+all: check-rust rust-targets prepare-dirs build-go-arm64 build-java-x86_64 build-go build-java build-node instructions
 
 # Check if Rust is installed
 check-rust:
@@ -35,7 +35,7 @@ prepare-dirs:
 # Build Rust static library for Go (ARM64)
 build-go-arm64:
 	@echo "Building Rust static library for Go (ARM64)..."
-	cargo build --release --target $(RUST_TARGET_ARM64) --manifest-path=lib/Cargo.toml --lib
+	cargo build --release --target $(RUST_TARGET_ARM64) --manifest-path=lib/Cargo.toml --lib --features go
 	@if [ $$? -ne 0 ]; then echo "Rust static library build for ARM64 failed!"; exit 1; fi
 	@echo "Copying ARM64 static library to Go project..."
 	cp ./lib/target/$(RUST_TARGET_ARM64)/release/lib$(LIB_NAME).a $(GO_PATH)/$(NEW_BUILD_DIR)/libcll.a
@@ -45,12 +45,26 @@ build-go-arm64:
 # Build Rust dynamic library for Java (x86_64)
 build-java-x86_64:
 	@echo "Building Rust dynamic library for Java (x86_64)..."
-	cargo build --release --target $(RUST_TARGET_X86_64) --manifest-path=lib/Cargo.toml --lib
+	cargo build --release --target $(RUST_TARGET_X86_64) --manifest-path=lib/Cargo.toml --lib --features java
 	@if [ $$? -ne 0 ]; then echo "Rust dynamic library build for x86_64 failed!"; exit 1; fi
 	@echo "Copying x86_64 dynamic library to Java project..."
 	cp ./lib/target/$(RUST_TARGET_X86_64)/release/lib$(LIB_NAME).dylib $(JAVA_PATH)/$(NEW_BUILD_DIR)/libcll.dylib
 	@if [ $$? -ne 0 ]; then echo "Failed to copy x86_64 dynamic library!"; exit 1; fi
 	@echo "Dynamic library copied to Java project.\n"
+
+# Build Rust dynamic library for Node.js (x86_64)
+build-node:
+	@echo "Building Rust dynamic library for Node.js (x86_64)..."
+	cargo build --release --target $(RUST_TARGET_X86_64) --manifest-path=lib/Cargo.toml --lib --features node
+	@if [ $$? -ne 0 ]; then echo "Rust dynamic library build for Node.js failed!"; exit 1; fi
+	@echo "Copying x86_64 dynamic library to Node.js project..."
+	cp ./lib/target/$(RUST_TARGET_X86_64)/release/lib$(LIB_NAME).dylib $(NODE_PATH)/$(NEW_BUILD_DIR)/libcll.dylib
+	@if [ $$? -ne 0 ]; then echo "Failed to copy x86_64 dynamic library!"; exit 1; fi
+	@echo "Dynamic library copied to Node.js project.\n"
+	@echo "Building Node.js..."
+	cd $(NODE_PATH) && npm install
+	@if [ $$? -ne 0 ]; then echo "Node.js build failed!"; exit 1; fi
+	@echo "Node.js addon built successfully.\n"
 
 # Build Go project
 build-go:
@@ -65,13 +79,6 @@ build-java:
 	cd $(JAVA_PATH) && mvn clean package
 	@if [ $$? -ne 0 ]; then echo "Java build failed!"; exit 1; fi
 	@echo "Java project built successfully.\n"
-
-# Build Node.js addon
-build-node:
-	@echo "Building Node.js addon..."
-	cd $(NODE_PATH) && npm install && npm run build
-	@if [ $$? -ne 0 ]; then echo "Node.js build failed!"; exit 1; fi
-	@echo "Node.js addon built successfully.\n"
 
 # Clean all build directories
 clean:

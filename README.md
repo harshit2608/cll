@@ -1,6 +1,6 @@
 # CLL
 
-**CLL** is a cross-language library that allows user to write core logic in Rust and create bindings for multiple programming languages, including Go, Java, and _Node.js (WIP)_. This enables seamless integration of the powerful Rust language into various environments.
+**CLL** is a cross-language library that allows user to write core logic in Rust and create bindings for multiple programming languages, including Go, Java, and Node.js This enables seamless integration of the powerful Rust language into various environments.
 
 ## Features
 
@@ -16,7 +16,7 @@ Before building the project, ensure that Rust is installed on your system. You c
 ## How to Use
 
 1. **Write your core logic in Rust**: Implement the main functionality of your project in Rust.
-2. **Export language-specific bindings**: Use appropriate tools and methods to generate bindings for the desired language (e.g., cbindgen for Go, JNI for Java, N-API for Node.js).
+2. **Export language-specific bindings**: Use appropriate tools and methods to generate bindings for the desired language (e.g., C for Go, JNI for Java, FFI-NAPI for Node.js).
 3. **Create a wrapper**: Develop a simple wrapper in the target language that interacts with the bindings.
 
 ## How to Build
