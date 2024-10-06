@@ -9,7 +9,7 @@ RUST_TARGET_ARM64=aarch64-apple-darwin
 RUST_TARGET_X86_64=x86_64-apple-darwin
 
 # Default target to run everything
-all: check-rust rust-targets prepare-dirs build-go-arm64 build-java-x86_64 build-go build-java build-node instructions
+all: check-rust rust-targets prepare-dirs build-go-arm64 build-java-x86_64 build-go build-java build-node check-tests instructions
 
 # Check if Rust is installed
 check-rust:
@@ -64,7 +64,7 @@ build-node:
 	@echo "Building Node.js..."
 	cd $(NODE_PATH) && npm install
 	@if [ $$? -ne 0 ]; then echo "Node.js build failed!"; exit 1; fi
-	@echo "Node.js addon built successfully.\n"
+	@echo "Node.js wrapper built successfully.\n"
 
 # Build Go project
 build-go:
@@ -79,6 +79,31 @@ build-java:
 	cd $(JAVA_PATH) && mvn clean package
 	@if [ $$? -ne 0 ]; then echo "Java build failed!"; exit 1; fi
 	@echo "Java project built successfully.\n"
+
+# Run tests for Go project
+test-go:
+	@echo "Running Go tests..."
+	cd $(GO_PATH) && go test ./...
+	@if [ $$? -ne 0 ]; then echo "Go tests failed!"; exit 1; fi
+	@echo "Go tests passed.\n"
+
+# Run tests for Java project
+test-java:
+	@echo "Running Java tests..."
+	cd $(JAVA_PATH) && mvn test
+	@if [ $$? -ne 0 ]; then echo "Java tests failed!"; exit 1; fi
+	@echo "Java tests passed.\n"
+
+# Run tests for Node.js project
+test-node:
+	@echo "Running Node.js tests..."
+	cd $(NODE_PATH) && npm test
+	@if [ $$? -ne 0 ]; then echo "Node.js tests failed!"; exit 1; fi
+	@echo "Node.js tests passed.\n"
+
+# Check all tests
+check-tests: test-go test-java
+	@echo "All tests passed successfully.\n"
 
 # Clean all build directories
 clean:

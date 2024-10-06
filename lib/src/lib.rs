@@ -13,4 +13,5 @@ pub mod exports {
     pub mod node_bindings;
 }
 
-pub mod greet;
+pub mod core;
+pub use core::{fibonacci, greet};

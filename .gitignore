@@ -1,9 +1,14 @@
+# Editor Specific
 .vscode
 .idea
 
+# Platform
 .DS_Store
 
+# Mis
 node_modules
+
+# Build Dirs
 out
 target
 **.dylib

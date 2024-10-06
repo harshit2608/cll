@@ -11,7 +11,12 @@
 
 ## Prerequisites
 
-Before building the project, ensure that Rust is installed on your system. You can install Rust by following the instructions on the official Rust website: [Install Rust](https://www.rust-lang.org/tools/install).
+Ensure that the following are installed on your system before building the project:
+
+- **Rust**: The core library is written in Rust. Follow the official [Rust installation guide](https://www.rust-lang.org/tools/install) to set up Rust.
+- **Go**, **Java**, **Node.js**: Install these as needed based on which language bindings you plan to use.
+
+> **Note**: Currently, Node.js version 14 (up to 14.16.1) is supported due to limitations with `node-gyp`, which is used by `ffi-napi`. Future updates might introduce native bindings without the need for dynamic libraries.
 
 ## How to Use
 
