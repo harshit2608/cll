@@ -6,7 +6,7 @@ use std::ffi::{CStr, CString};
 
 #[no_mangle]
 pub extern "C" fn go_greet(name: *const libc::c_char) -> *mut libc::c_char {
-    let c_str = unsafe { CStr::from_ptr(name) };   // Convert C string to Rust string
+    let c_str = unsafe { CStr::from_ptr(name) };
     let name_str = c_str.to_string_lossy().into_owned();
 
     let greeting = rust_greet(&name_str);  // Call the Rust greet function

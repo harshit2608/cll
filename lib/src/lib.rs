@@ -13,5 +13,10 @@ pub mod exports {
     pub mod node_bindings;
 }
 
+#[cfg(feature = "deno")]
+pub mod exports {
+    pub mod node_bindings;
+}
+
 pub mod core;
 pub use core::{fibonacci, greet};

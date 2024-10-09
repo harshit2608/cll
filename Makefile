@@ -2,6 +2,7 @@ LIB_NAME=cll
 GO_PATH=./cll-go
 JAVA_PATH=./cll-java
 NODE_PATH=./cll-node
+DENO_PATH=./cll-deno
 BUILD_DIR=./lib/build
 NEW_BUILD_DIR=cll_lib
 
@@ -9,7 +10,7 @@ RUST_TARGET_ARM64=aarch64-apple-darwin
 RUST_TARGET_X86_64=x86_64-apple-darwin
 
 # Default target to run everything
-all: check-rust rust-targets prepare-dirs build-go-arm64 build-java-x86_64 build-go build-java build-node check-tests instructions
+all: check-rust rust-targets prepare-dirs build-go-arm64 build-java-x86_64 build-go build-java build-node build-deno check-tests instructions
 
 # Check if Rust is installed
 check-rust:
@@ -30,6 +31,7 @@ prepare-dirs:
 	mkdir -p $(GO_PATH)/$(NEW_BUILD_DIR)
 	mkdir -p $(JAVA_PATH)/$(NEW_BUILD_DIR)
 	mkdir -p $(NODE_PATH)/$(NEW_BUILD_DIR)
+	mkdir -p $(DENO_PATH)/$(NEW_BUILD_DIR)
 	@echo
 
 # Build Rust static library for Go (ARM64)
@@ -65,6 +67,20 @@ build-node:
 	cd $(NODE_PATH) && npm install
 	@if [ $$? -ne 0 ]; then echo "Node.js build failed!"; exit 1; fi
 	@echo "Node.js wrapper built successfully.\n"
+
+# Build Rust dynamic library for Deno (ARM64)
+build-deno:
+	@echo "Building Rust dynamic library for Deno (ARM64)..."
+	cargo build --release --target $(RUST_TARGET_ARM64) --manifest-path=lib/Cargo.toml --lib --features deno
+	@if [ $$? -ne 0 ]; then echo "Rust dynamic library build for Deno failed!"; exit 1; fi
+	@echo "Copying ARM64 dynamic library to Deno project..."
+	cp ./lib/target/$(RUST_TARGET_ARM64)/release/lib$(LIB_NAME).dylib $(DENO_PATH)/$(NEW_BUILD_DIR)/libcll.dylib
+	@if [ $$? -ne 0 ]; then echo "Failed to copy ARM64 dynamic library!"; exit 1; fi
+	@echo "Dynamic library copied to Deno project.\n"
+	@echo "Building Deno..."
+	cd $(DENO_PATH) && deno install
+	@if [ $$? -ne 0 ]; then echo "Deno build failed!"; exit 1; fi
+	@echo "Deno wrapper built successfully.\n"
 
 # Build Go project
 build-go:
@@ -108,7 +124,7 @@ check-tests: test-go test-java
 # Clean all build directories
 clean:
 	@echo "Cleaning build directories..."
-	rm -rf $(BUILD_DIR) $(GO_PATH)/$(NEW_BUILD_DIR) $(JAVA_PATH)/$(NEW_BUILD_DIR) $(NODE_PATH)/$(NEW_BUILD_DIR) $(GO_PATH)/out $(JAVA_PATH)/target ./lib/target
+	rm -rf $(BUILD_DIR) $(GO_PATH)/$(NEW_BUILD_DIR) $(JAVA_PATH)/$(NEW_BUILD_DIR) $(NODE_PATH)/$(NEW_BUILD_DIR) $(DENO_PATH)/$(NEW_BUILD_DIR) $(GO_PATH)/out $(JAVA_PATH)/target ./lib/target
 
 # Instructions for running
 instructions:
@@ -116,5 +132,7 @@ instructions:
 	@echo "go run cll-go/main.go\n"
 	@echo "To run the Java application:"
 	@echo "java -Djava.library.path=./cll-java/cll_lib -cp cll-java/target/cll-1.0-SNAPSHOT.jar cll.App\n"
-	@echo "To run the Node.js application (after building the addon):"
-	@echo "node cll-node/index.js"
+	@echo "To run the Node.js application:"
+	@echo "node cll-node/index.js\n"
+	@echo "To run the deno application:"
+	@echo "cd cll-deno && deno run start"

@@ -19,6 +19,7 @@ default = []
 go = []
 java = ["jni"]
 node = []
+deno = []
 
 [profile.release]
 debug = false

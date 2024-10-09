@@ -1,7 +1,9 @@
-
 # CLL: Cross-Language Library
 
-**CLL** is a project designed to allow developers to write core logic in Rust and create bindings for multiple programming languages, including Go, Java, and Node.js. This enables seamless integration of Rust's performance and safety features into various environments.
+**CLL** is a project designed to allow developers to write core logic in Rust and create bindings for multiple programming languages, including Go, Java, and Node.js. This enables seamless integration of Rust's performance and safety features across various environments.
+
+> [!CAUTION]
+> Bindings generated for Deno are still in the experimental phase. Although they offer better performance and memory management compared to Node.js FFI-NAPI bindings, developers are advised to use them at their own risk.
 
 ## Features
 
@@ -14,8 +16,8 @@
 
 Ensure that the following are installed on your system before building the project:
 
-- **Rust**: The core library is written in Rust. Follow the official [Rust installation guide](https://www.rust-lang.org/tools/install) to set up Rust.
-- **Go**, **Java**, **Node.js**: Install these based on which language bindings you plan to use.
+- **Rust**: The core library is written in Rust. Follow the official [Rust installation guide](https://www.rust-lang.org/tools/install) to set it up.
+- **Go**, **Java**, **Node.js**, **Deno**: Install these based on which language bindings you plan to use.
 
 > [!NOTE]
 > Node.js version 14 (up to 14.16.1) is currently supported due to limitations with `node-gyp`, used by `ffi-napi`. Future updates may transition to native bindings, eliminating the need for dynamic libraries.
@@ -27,6 +29,7 @@ Ensure that the following are installed on your system before building the proje
    - **Go**: Bindings created using C FFI.
    - **Java**: Bindings created using JNI.
    - **Node.js**: Bindings created using FFI-NAPI.
+   - **Deno**: Bindings created for the Deno runtime using internal FFI.
 3. **Create a wrapper in the target language**: Develop simple wrappers that interact with Rust through the generated bindings.
 
 ## Build Instructions
@@ -40,7 +43,7 @@ make
 This will:
 
 - Compile the Rust core library.
-- Generate the bindings for Go, Java, and Node.js.
+- Generate the bindings for Go, Java, Node.js and Deno.
 - Create the respective libraries for integration.
 
 ## Supported Languages
